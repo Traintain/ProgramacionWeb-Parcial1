@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Rochester&display=swap");
+
 .tituloPagina {
   font-family: Rochester;
   font-size: 30px;
@@ -17,7 +19,7 @@
 }
 
 .titulos {
-  font-family: "Roboto";
+  font-family: Roboto;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
