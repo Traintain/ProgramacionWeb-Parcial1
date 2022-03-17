@@ -1,21 +1,84 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Rochester&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;800&family=Rochester&display=swap");
+
+.footer {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+
+  color: #000000;
+}
+
+h1 {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+  text-align: center;
+
+  color: #000000;
+}
+
+hr {
+  border: 1px solid #000000;
+}
+
+.menu {
+  background: #333a40;
+}
+
+.menuList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.menuItem {
+  float: Left;
+
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+
+  color: white;
+
+  padding: 20px;
+  padding-right: 60px;
+}
+
+.precio {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+}
+
+.textoPlano {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: left;
+
+  color: #000000;
+}
 
 .tituloPagina {
   font-family: Rochester;
-  font-size: 30px;
+  font-size: 41px;
   font-style: normal;
   font-weight: 400;
   line-height: 62px;
   letter-spacing: 0em;
-  text-align: left;
-}
-
-.carrito {
-  align-self: right;
-}
-
-.menu {
-  background: #fdcd55;
 }
 
 .titulos {
