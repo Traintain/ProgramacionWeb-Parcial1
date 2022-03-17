@@ -7,6 +7,8 @@ let gruposProductos = [];
 
 let grupoActual = 0;
 
+let carrito = [];
+
 class Producto {
   constructor(name, description, price, image) {
     this.name = name;
@@ -27,21 +29,32 @@ function getData(callback) {
   fetch(url)
     .then((res) => res.json())
     .then((res) => {
-      console.log("Resultados", res);
       callback(res);
     });
 }
 
-function filtrarProductos(categoria) {}
+function filtrarProductos(idGrupo) {
+  mostrarTarjetas(idGrupo);
+}
+
+function agregarCarrito(grupo, nombre) {
+  grupo = gruposProductos.find((element) => (element.name = grupo));
+  carrito.push(nombre);
+  document.getElementById("carrito").innerText = "Items " + carrito.length;
+  console.log(carrito.length);
+}
 
 function mostrarTarjetas(idGrupo) {
   let grupo = gruposProductos[idGrupo];
-  vitrina = document.getElementById("vitrina");
+
+  vitrina = document.getElementById("ponerTarjetas");
+
+  while (vitrina.hasChildNodes()) {
+    vitrina.removeChild(vitrina.firstChild);
+  }
+
   tituloGrupo = document.getElementById("tituloGrupo");
   tituloGrupo.innerHTML = grupo.name;
-
-  let row = document.createElement("div");
-  row.className = "row";
 
   for (let i = 0; i < Object.keys(grupo).length; i++) {
     let producto = grupo.productos[i];
@@ -71,7 +84,8 @@ function mostrarTarjetas(idGrupo) {
 
     let button = document.createElement("a");
     button.className = "btn";
-    button.innerHTML = "Comprar";
+    button.innerHTML = "Add to Cart";
+    button.onclick = () => agregarCarrito(grupo.name, producto.name);
 
     cuerpo.appendChild(titulo);
     cuerpo.appendChild(descripcion);
@@ -81,8 +95,7 @@ function mostrarTarjetas(idGrupo) {
     division.appendChild(imagen);
     division.appendChild(cuerpo);
 
-    row.appendChild(division);
-    vitrina.appendChild(row);
+    vitrina.appendChild(division);
   }
 }
 
@@ -91,20 +104,17 @@ function llenarMenu() {
 
   for (let i = 0; i < gruposProductos.length; i++) {
     let grupo = document.createElement("li");
+    let link = document.createElement("a");
     grupo.className = "menuItem";
-    grupo.innerHTML = gruposProductos[i].name;
+    link.innerHTML = gruposProductos[i].name;
+    link.id = i;
+    grupo.appendChild(link);
     menu.appendChild(grupo);
   }
 }
 
 getData((value) => {
   array = value;
-  console.log("Array", array);
-  console.log("Elemento", array[1]);
-  console.log("Elemento", array[1].name);
-  console.log("Elemento", array[1].products);
-  console.log("Elemento", array[1].products[1]);
-  console.log("Elemento", Object.keys(array).length);
 
   for (let i = 0; i < Object.keys(array).length; i++) {
     let productos = [];
@@ -122,11 +132,16 @@ getData((value) => {
 
     let grupo = new GrupoProductos(element.name, productos);
     gruposProductos.push(grupo);
-    console.log("Grupo ya creado", grupo);
   }
 
   llenarMenu();
   mostrarTarjetas(0);
+
+  document.getElementById("0").onclick = () => filtrarProductos(0);
+  document.getElementById("1").onclick = () => filtrarProductos(1);
+  document.getElementById("2").onclick = () => filtrarProductos(2);
+  document.getElementById("3").onclick = () => filtrarProductos(3);
+  document.getElementById("4").onclick = () => filtrarProductos(4);
 });
 
 //console.log("Elemento", document.getElementsByTagName("p"));*/
