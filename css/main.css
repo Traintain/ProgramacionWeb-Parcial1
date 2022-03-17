@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;800&family=Rochester&display=swap");
 
+.addToCart {
+  background: #f2a950;
+  border: 1px solid #cccccc;
+  box-sizing: border-box;
+}
+
 .footer {
   font-family: "Roboto";
   font-style: normal;

@@ -5,9 +5,65 @@ let array = [];
 
 let gruposProductos = [];
 
-let grupoActual = 0;
+let itemsCarrito = [];
 
-let carrito = [];
+let tableTitles = [
+  "Item",
+  "Qty.",
+  "Description",
+  "Unit Price",
+  "Amount",
+  "Modify",
+];
+
+class Carrito {
+  constructor(items) {
+    this.total = 0;
+    this.items = items;
+    this.numItems = 0;
+  }
+
+  addItem(item) {
+    let index = -1;
+    let añadir;
+    for (let i = 0; i < this.items.length && index == -1; i++) {
+      if (this.items[i].name == item.name) {
+        index = i;
+      }
+    }
+
+    if (index == -1) {
+      añadir = new ItemCarrito(1, item.name, item.price, item.price);
+      this.items.push(añadir);
+    } else {
+      this.items[index].addItem();
+    }
+
+    this.total = this.total + item.uPrice;
+    this.numItems = this.numItems + 1;
+  }
+}
+
+let carrito = new Carrito(itemsCarrito);
+
+class ItemCarrito {
+  constructor(qty, name, uPrice, amount) {
+    this.qty = qty;
+    this.name = name;
+    this.uPrice = uPrice;
+    this.amount = amount;
+  }
+
+  addItem() {
+    this.qty = this.qty + 1;
+    this.amount = this.amount + this.uPrice;
+  }
+
+  deleteItem() {
+    this.qty = this.qty - 1;
+    this.amount = this.amount - this.uPrice;
+  }
+}
 
 class Producto {
   constructor(name, description, price, image) {
@@ -37,11 +93,11 @@ function filtrarProductos(idGrupo) {
   mostrarTarjetas(idGrupo);
 }
 
-function agregarCarrito(grupo, nombre) {
+function agregarCarrito(grupo, producto) {
   grupo = gruposProductos.find((element) => (element.name = grupo));
-  carrito.push(nombre);
-  document.getElementById("carrito").innerText = "Items " + carrito.length;
-  console.log(carrito.length);
+  carrito.addItem(producto);
+  document.getElementById("carrito").innerText = "Items " + carrito.numItems;
+  console.log(itemsCarrito.length);
 }
 
 function mostrarTarjetas(idGrupo) {
@@ -83,9 +139,9 @@ function mostrarTarjetas(idGrupo) {
     precio.innerHTML = "$ " + producto.price;
 
     let button = document.createElement("a");
-    button.className = "btn";
+    button.className = "btn addToCart";
     button.innerHTML = "Add to Cart";
-    button.onclick = () => agregarCarrito(grupo.name, producto.name);
+    button.onclick = () => agregarCarrito(grupo.name, producto);
 
     cuerpo.appendChild(titulo);
     cuerpo.appendChild(descripcion);
@@ -97,6 +153,78 @@ function mostrarTarjetas(idGrupo) {
 
     vitrina.appendChild(division);
   }
+}
+
+function verDetalleOrden() {
+  vitrina = document.getElementById("ponerTarjetas");
+
+  /** Limpia el espacio donde normalmente hay tarjetas */
+  while (vitrina.hasChildNodes()) {
+    vitrina.removeChild(vitrina.firstChild);
+  }
+
+  tituloGrupo = document.getElementById("tituloGrupo");
+  tituloGrupo.innerHTML = "ORDER DETAIL";
+
+  /** <table class="table table-striped"> */
+  let table = document.createElement("table");
+  table.className = "table table-striped";
+
+  /** <thead> */
+  let tableHead = document.createElement("thead");
+
+  /** <tr> */
+  let tableRow = document.createElement("tr");
+
+  /** Crea los encabezados */
+  for (let i = 0; i < 6; i++) {
+    /** <th> */
+    let tableHeader = document.createElement("th");
+    tableHeader.scope = "col";
+    tableHeader.innerHTML = tableTitles[i];
+    tableRow.appendChild(tableHeader);
+  }
+  tableHead.appendChild(tableRow);
+  table.appendChild(tableHead);
+
+  /** <tbody> */
+  let tableBody = document.createElement("tbody");
+
+  for (let i = 0; i < Object.keys(itemsCarrito).length; i++) {
+    let item = itemsCarrito[i];
+    /** <tr> */
+    tableRow = document.createElement("tr");
+    tableHeader = document.createElement("th");
+    tableHeader.scope = "col";
+    tableHeader.innerHTML = i + 1;
+    tableRow.appendChild(tableHeader);
+
+    for (let j = 0; j < 5; j++) {
+      let tableData = document.createElement("td");
+      if (j == 0) {
+        tableData.innerHTML = item.qty;
+      } else if (j == 1) {
+        tableData.innerHTML = item.name;
+      } else if (j == 2) {
+        tableData.innerHTML = item.uPrice;
+      } else if (j == 3) {
+        tableData.innerHTML = item.amount;
+      }
+      tableRow.appendChild(tableData);
+    }
+
+    tableBody.appendChild(tableRow);
+  }
+  table.appendChild(tableBody);
+  vitrina.appendChild(table);
+
+  let row = document.createElement("div");
+  row.className = "row";
+  let total = document.createElement("p");
+  total.className = "precio";
+  total.innerHTML = carrito.total;
+  row.appendChild(total);
+  vitrina.appendChild(row);
 }
 
 function llenarMenu() {
@@ -142,20 +270,5 @@ getData((value) => {
   document.getElementById("2").onclick = () => filtrarProductos(2);
   document.getElementById("3").onclick = () => filtrarProductos(3);
   document.getElementById("4").onclick = () => filtrarProductos(4);
+  document.getElementById("botonCarrito").onclick = () => verDetalleOrden();
 });
-
-//console.log("Elemento", document.getElementsByTagName("p"));*/
-//a = document.getElementsByTagName("p")[0];*/
-//console.log("Elemento", a);*/
-
-//let lista = document.getElementById("tabla");*/
-
-//const tableRow = document.createElement("tr");*/
-//const evento = document.createElement("td");*/
-//const resultado = document.createElement("td");*/
-
-//tableRow.appendChild(evento);*/
-//tableRow.appendChild(resultado);*/
-//lista.appendChild(tableRow);*/
-
-//evento.innerHTML = "aaaa";*/
