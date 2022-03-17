@@ -39,7 +39,7 @@ class Carrito {
       this.items[index].addItem();
     }
 
-    this.total = this.total + item.uPrice;
+    this.total = this.total + item.price;
     this.numItems = this.numItems + 1;
   }
 }
@@ -156,6 +156,7 @@ function mostrarTarjetas(idGrupo) {
 }
 
 function verDetalleOrden() {
+  mainDiv = document.getElementById("vitrina");
   vitrina = document.getElementById("ponerTarjetas");
 
   /** Limpia el espacio donde normalmente hay tarjetas */
@@ -222,9 +223,9 @@ function verDetalleOrden() {
   row.className = "row";
   let total = document.createElement("p");
   total.className = "precio";
-  total.innerHTML = carrito.total;
+  total.innerHTML = "Total: " + carrito.total;
   row.appendChild(total);
-  vitrina.appendChild(row);
+  mainDiv.appendChild(row);
 }
 
 function llenarMenu() {
